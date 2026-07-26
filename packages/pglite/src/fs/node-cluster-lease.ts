@@ -118,8 +118,16 @@ async function flockPromise(
   // The addon's asynchronous callback bridge is not safe when the caller is
   // itself a Node Worker. Both operations here are nonblocking (`exnb` and
   // `un`), so the synchronous binding preserves semantics without blocking.
-  const { flockSync } = await import('fs-ext-extra-prebuilt')
-  flockSync(fd, operation)
+  const mod = await import('fs-ext-extra-prebuilt').catch(() => undefined)
+  if (!mod) {
+    // No native fs-ext binding for this runtime (e.g. the wasm32/browser guest,
+    // or a Node ABI with no prebuilt). Advisory cluster locking then isn't
+    // available — but on a single-process runtime there is no competing
+    // postmaster to guard against, so degrade to a no-op rather than failing
+    // startup. Multi-process hosts that ship the addon keep real flock.
+    return
+  }
+  mod.flockSync(fd, operation)
 }
 
 function isLockContended(error: unknown): boolean {
