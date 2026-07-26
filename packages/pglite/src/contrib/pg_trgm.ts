@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/pg_trgm.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/pg_trgm.js'
 
-export const pg_trgm = {
+/** pg_trgm for every PGlite runtime target (classic + multi-memory). */
+export const pg_trgm = defineExtension({
   name: 'pg_trgm',
-  setup,
-} satisfies Extension
+  version: '1.6',
+  backend: generatedExtensionBackend,
+})

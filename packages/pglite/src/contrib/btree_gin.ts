@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/btree_gin.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/btree_gin.js'
 
-export const btree_gin = {
+/** btree_gin for every PGlite runtime target (classic + multi-memory). */
+export const btree_gin = defineExtension({
   name: 'btree_gin',
-  setup,
-} satisfies Extension
+  version: '1.3',
+  backend: generatedExtensionBackend,
+})

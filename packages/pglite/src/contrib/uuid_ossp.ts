@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/uuid-ossp.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/uuid-ossp.js'
 
-export const uuid_ossp = {
+/** uuid-ossp for every PGlite runtime target (classic + multi-memory). */
+export const uuid_ossp = defineExtension({
   name: 'uuid-ossp',
-  setup,
-} satisfies Extension
+  version: '1.1',
+  backend: generatedExtensionBackend,
+})
