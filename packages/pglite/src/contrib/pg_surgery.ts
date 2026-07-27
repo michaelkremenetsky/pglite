@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/pg_surgery.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/pg_surgery.js'
 
-export const pg_surgery = {
+/** pg_surgery for every PGlite runtime target (classic + multi-memory). */
+export const pg_surgery = defineExtension({
   name: 'pg_surgery',
-  setup,
-} satisfies Extension
+  version: '1.0',
+  backend: generatedExtensionBackend,
+})

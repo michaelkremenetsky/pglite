@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/ltree.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/ltree.js'
 
-export const ltree = {
+/** ltree for every PGlite runtime target (classic + multi-memory). */
+export const ltree = defineExtension({
   name: 'ltree',
-  setup,
-} satisfies Extension
+  version: '1.3',
+  backend: generatedExtensionBackend,
+})

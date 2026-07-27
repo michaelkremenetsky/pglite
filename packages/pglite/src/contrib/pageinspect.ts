@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/pageinspect.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/pageinspect.js'
 
-export const pageinspect = {
+/** pageinspect for every PGlite runtime target (classic + multi-memory). */
+export const pageinspect = defineExtension({
   name: 'pageinspect',
-  setup,
-} satisfies Extension
+  version: '1.13',
+  backend: generatedExtensionBackend,
+})

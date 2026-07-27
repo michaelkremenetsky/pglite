@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/auto_explain.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/auto_explain.js'
 
-export const auto_explain = {
+/** auto_explain for every PGlite runtime target (classic + multi-memory). */
+export const auto_explain = defineExtension({
   name: 'auto_explain',
-  setup,
-} satisfies Extension
+  version: '1.0',
+  backend: generatedExtensionBackend,
+})

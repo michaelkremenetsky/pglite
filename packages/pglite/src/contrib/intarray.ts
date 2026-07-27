@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/intarray.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/intarray.js'
 
-export const intarray = {
+/** intarray for every PGlite runtime target (classic + multi-memory). */
+export const intarray = defineExtension({
   name: 'intarray',
-  setup,
-} satisfies Extension
+  version: '1.5',
+  backend: generatedExtensionBackend,
+})

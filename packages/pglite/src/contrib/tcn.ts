@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/tcn.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/tcn.js'
 
-export const tcn = {
+/** tcn for every PGlite runtime target (classic + multi-memory). */
+export const tcn = defineExtension({
   name: 'tcn',
-  setup,
-} satisfies Extension
+  version: '1.0',
+  backend: generatedExtensionBackend,
+})

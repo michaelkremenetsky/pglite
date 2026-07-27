@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/pg_walinspect.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/pg_walinspect.js'
 
-export const pg_walinspect = {
+/** pg_walinspect for every PGlite runtime target (classic + multi-memory). */
+export const pg_walinspect = defineExtension({
   name: 'pg_walinspect',
-  setup,
-} satisfies Extension
+  version: '1.1',
+  backend: generatedExtensionBackend,
+})

@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/citext.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/citext.js'
 
-export const citext = {
+/** citext for every PGlite runtime target (classic + multi-memory). */
+export const citext = defineExtension({
   name: 'citext',
-  setup,
-} satisfies Extension
+  version: '1.8',
+  backend: generatedExtensionBackend,
+})

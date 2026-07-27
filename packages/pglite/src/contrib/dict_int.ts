@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/dict_int.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/dict_int.js'
 
-export const dict_int = {
+/** dict_int for every PGlite runtime target (classic + multi-memory). */
+export const dict_int = defineExtension({
   name: 'dict_int',
-  setup,
-} satisfies Extension
+  version: '1.0',
+  backend: generatedExtensionBackend,
+})

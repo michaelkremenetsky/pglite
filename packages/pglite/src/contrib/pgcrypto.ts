@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/pgcrypto.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/pgcrypto.js'
 
-export const pgcrypto = {
+/** pgcrypto for every PGlite runtime target (classic + multi-memory). */
+export const pgcrypto = defineExtension({
   name: 'pgcrypto',
-  setup,
-} satisfies Extension
+  version: '1.4',
+  backend: generatedExtensionBackend,
+})

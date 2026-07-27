@@ -1,19 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL(
-      '../../release/pg_freespacemap.tar.gz',
-      import.meta.url,
-    ),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/pg_freespacemap.js'
 
-export const pg_freespacemap = {
+/** pg_freespacemap for every PGlite runtime target (classic + multi-memory). */
+export const pg_freespacemap = defineExtension({
   name: 'pg_freespacemap',
-  setup,
-} satisfies Extension
+  version: '1.3',
+  backend: generatedExtensionBackend,
+})

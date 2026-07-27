@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/unaccent.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/unaccent.js'
 
-export const unaccent = {
+/** unaccent for every PGlite runtime target (classic + multi-memory). */
+export const unaccent = defineExtension({
   name: 'unaccent',
-  setup,
-} satisfies Extension
+  version: '1.1',
+  backend: generatedExtensionBackend,
+})

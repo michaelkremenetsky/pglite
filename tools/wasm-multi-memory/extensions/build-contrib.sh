@@ -55,8 +55,8 @@ build_extension() {
 
   node22 "${REPO_ROOT}/tools/wasm-multi-memory/extensions/generate-wrapper.mjs" \
     "${pkg_dir}/src/contrib/generated/${ext}.ts" \
-    "wasm32-classic=${pkg_dir}/release/${ext}.wasm32-classic.json=../../../release/${ext}.wasm32-classic.tar.gz" \
-    "wasm32-multi-memory=${pkg_dir}/release/${ext}.wasm32-multi-memory.json=../../../release/${ext}.wasm32-multi-memory.tar.gz"
+    "wasm32-classic=${pkg_dir}/release/${ext}.wasm32-classic.json=../../release/${ext}.wasm32-classic.tar.gz" \
+    "wasm32-multi-memory=${pkg_dir}/release/${ext}.wasm32-multi-memory.json=../../release/${ext}.wasm32-multi-memory.tar.gz"
 
   echo "packaged ${ext} (classic + multi-memory)"
 }

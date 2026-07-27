@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/earthdistance.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/earthdistance.js'
 
-export const earthdistance = {
+/** earthdistance for every PGlite runtime target (classic + multi-memory). */
+export const earthdistance = defineExtension({
   name: 'earthdistance',
-  setup,
-} satisfies Extension
+  version: '1.2',
+  backend: generatedExtensionBackend,
+})

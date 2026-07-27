@@ -1,19 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL(
-      '../../release/tsm_system_time.tar.gz',
-      import.meta.url,
-    ),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/tsm_system_time.js'
 
-export const tsm_system_time = {
+/** tsm_system_time for every PGlite runtime target (classic + multi-memory). */
+export const tsm_system_time = defineExtension({
   name: 'tsm_system_time',
-  setup,
-} satisfies Extension
+  version: '1.0',
+  backend: generatedExtensionBackend,
+})

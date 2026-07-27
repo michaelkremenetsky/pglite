@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/cube.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/cube.js'
 
-export const cube = {
+/** cube for every PGlite runtime target (classic + multi-memory). */
+export const cube = defineExtension({
   name: 'cube',
-  setup,
-} satisfies Extension
+  version: '1.5',
+  backend: generatedExtensionBackend,
+})

@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/seg.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/seg.js'
 
-export const seg = {
+/** seg for every PGlite runtime target (classic + multi-memory). */
+export const seg = defineExtension({
   name: 'seg',
-  setup,
-} satisfies Extension
+  version: '1.4',
+  backend: generatedExtensionBackend,
+})

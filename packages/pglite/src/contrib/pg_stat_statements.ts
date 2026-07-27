@@ -1,20 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL(
-      '../../release/pg_stat_statements.tar.gz',
-      import.meta.url,
-    ),
-    sharedPreloadLibraries: ['pg_stat_statements'],
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/pg_stat_statements.js'
 
-export const pg_stat_statements = {
+/** pg_stat_statements for every PGlite runtime target (classic + multi-memory). */
+export const pg_stat_statements = defineExtension({
   name: 'pg_stat_statements',
-  setup,
-} satisfies Extension
+  version: '1.12',
+  backend: generatedExtensionBackend,
+})

@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/pg_visibility.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/pg_visibility.js'
 
-export const pg_visibility = {
+/** pg_visibility for every PGlite runtime target (classic + multi-memory). */
+export const pg_visibility = defineExtension({
   name: 'pg_visibility',
-  setup,
-} satisfies Extension
+  version: '1.2',
+  backend: generatedExtensionBackend,
+})

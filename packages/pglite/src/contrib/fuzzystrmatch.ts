@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/fuzzystrmatch.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/fuzzystrmatch.js'
 
-export const fuzzystrmatch = {
+/** fuzzystrmatch for every PGlite runtime target (classic + multi-memory). */
+export const fuzzystrmatch = defineExtension({
   name: 'fuzzystrmatch',
-  setup,
-} satisfies Extension
+  version: '1.2',
+  backend: generatedExtensionBackend,
+})

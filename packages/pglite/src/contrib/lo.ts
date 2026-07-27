@@ -1,16 +1,10 @@
-import type {
-  Extension,
-  ExtensionSetupResult,
-  PGliteInterface,
-} from '../interface'
+import { defineExtension } from '../extension'
 
-const setup = async (_pg: PGliteInterface, _emscriptenOpts: any) => {
-  return {
-    bundlePath: new URL('../../release/lo.tar.gz', import.meta.url),
-  } satisfies ExtensionSetupResult
-}
+import { generatedExtensionBackend } from './generated/lo.js'
 
-export const lo = {
+/** lo for every PGlite runtime target (classic + multi-memory). */
+export const lo = defineExtension({
   name: 'lo',
-  setup,
-} satisfies Extension
+  version: '1.2',
+  backend: generatedExtensionBackend,
+})

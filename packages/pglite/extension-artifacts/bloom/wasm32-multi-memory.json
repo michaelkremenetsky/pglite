@@ -1,0 +1,6 @@
+{
+  "extensionName": "bloom",
+  "extensionVersion": "1.0",
+  "target": { "topology": "multi-memory", "memoryAbi": "pglite-tagged-i32-v1", "pointerWidth": 32, "memoryAddressWidth": 32, "postgresMajor": 18, "postgresAbi": "postgres-180003-catalog-202506291-block-8192-wal-8192-wasm32", "pgliteExtensionAbi": "pglite-extension-abi-v1", "hostAbi": "pglite-host-abi-v1" },
+  "sideModules": [ { "logicalName": "bloom", "path": "lib/postgresql/bloom.so", "loadAfter": [] } ]
+}
